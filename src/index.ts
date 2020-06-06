@@ -274,8 +274,9 @@ const npmCheckUpdates = async (options: Options = {}) => {
       const dependencyLockVersion = (dep: string) => packageLock?.dependencies[dep]?.version || '-';
       let ncuResult: Record<string, string> = await ncu.run(_options);
       if (!ignoreLockVersion) {
-        ncuResult = objectFilter(ncuResult, (key: string, value: { version: string }) =>
-          value.version.includes(dependencyLockVersion(key)),
+        ncuResult = objectFilter(ncuResult, (key: string, value: string) => {
+            return value.includes(dependencyLockVersion(key));
+          },
         );
       }
       const outdatedDependenciesNames = Object.keys(ncuResult);

@@ -17,15 +17,17 @@ describe('npmCheckUpdates()', () => {
     global.markdown = undefined;
   });
 
-  it('Checks for a that message has been called', () => {
+  it('Checks for a that message has been called', async () => {
     global.danger = {
-      github: { pr: { title: 'My Test Title' } },
+      git: {
+        modified_files: [],
+        created_files: [],
+        deleted_files: [],
+      },
     };
 
-    npmCheckUpdates();
+    await npmCheckUpdates();
 
-    expect(global.message).toHaveBeenCalledWith(
-      'PR Title: My Test Title',
-    );
+    expect(global.warn).toHaveBeenCalledTimes(1);
   });
 });

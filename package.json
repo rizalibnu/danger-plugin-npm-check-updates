@@ -20,7 +20,7 @@
   ],
   "version": "1.0.0",
   "main": "dist/index.js",
-  "types": "types/index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "commit": "git-cz",
     "build": "tsc",
