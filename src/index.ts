@@ -275,7 +275,7 @@ const npmCheckUpdates = async (options: Options = {}) => {
       let ncuResult: Record<string, string> = await ncu.run(_options);
       if (!ignoreLockVersion) {
         ncuResult = objectFilter(ncuResult, (key: string, value: string) => {
-            return value.includes(dependencyLockVersion(key));
+            return !value.includes(dependencyLockVersion(key));
           },
         );
       }
