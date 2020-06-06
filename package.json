@@ -28,7 +28,7 @@
     "predocs": "rm -rf docs/",
     "docs": "esdoc -c .esdoc.json",
     "prepublish": "npm run build",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "semantic-release": "semantic-release",
     "prettier": "prettier",
     "prettier-write": "npm run prettier",
     "prettier-project": "npm run prettier-write -- 'src/**/*.{ts,tsx}'",
@@ -46,6 +46,9 @@
     "synp": "^1.7.0"
   },
   "devDependencies": {
+    "@semantic-release/commit-analyzer": "^8.0.1",
+    "@semantic-release/npm": "^7.0.5",
+    "@semantic-release/release-notes-generator": "^9.0.1",
     "@types/jest": "^25.2.3",
     "@types/node": "^14.0.11",
     "commitizen": "^4.1.2",
