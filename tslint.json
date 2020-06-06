@@ -1,0 +1,36 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "tslint-config-prettier"
+  ],
+  "rules": {
+    "arrow-parens": false,
+    "interface-name": [
+      true,
+      "never-prefix"
+    ],
+    "max-classes-per-file": false,
+    "member-access": [
+      false,
+      "check-accessor",
+      "check-constructor"
+    ],
+    "object-literal-sort-keys": false,
+    "semicolon": [true, "always"],
+    "switch-default": false,
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "always",
+        "singleline": "never"
+      }
+    ],
+    "quotemark": [true, "single", "jsx-double"],
+    "variable-name": {
+      "options": [
+        "allow-leading-underscore"
+      ]
+    },
+    "prettier": true
+  }
+}
