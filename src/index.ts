@@ -149,7 +149,7 @@ type OutdatedDependencies = Record<
   {
     current: string
     latest: string
-    lock: string,
+    lock: string | null,
   }
 >;
 
@@ -204,7 +204,7 @@ const npmCheckUpdates = async (options: Options = {}) => {
 
   const defaultBasePath = runOptions.packageFile?.replace('package.json', '') || '.';
   const defaultPackageJson = readPackageJson(defaultBasePath);
-  const defaultPackageLock = readPackageLock(defaultBasePath);
+  const defaultPackageLock = !ignoreLockVersion ? readPackageLock(defaultBasePath) : null;
   let packages: Packages[] =
     defaultPackageJson && defaultPackageLock
       ? [
@@ -244,7 +244,7 @@ const npmCheckUpdates = async (options: Options = {}) => {
         })
         .map((pkg) => {
           const basePath = `./${monorepoPrefix}/${pkg}`;
-          return { packageJson: readPackageJson(basePath), packageLock: readPackageLock(basePath) };
+          return { packageJson: readPackageJson(basePath), packageLock: !ignoreLockVersion ? readPackageLock(basePath) : null };
         });
 
       packages = packages.concat(monorepoPackages);
@@ -287,7 +287,7 @@ const npmCheckUpdates = async (options: Options = {}) => {
         outdatedDependencies[dep] = {
           current: currentDependencies[dep] || '-',
           latest: ncuResult[dep] || '-',
-          lock: dependencyLockVersion(dep),
+          lock: !ignoreLockVersion ? dependencyLockVersion(dep) : null,
         };
       }
 
@@ -295,12 +295,12 @@ const npmCheckUpdates = async (options: Options = {}) => {
         const table = outdatedDependenciesNames
           .map((dependencyName) => {
             const { current, latest, lock } = outdatedDependencies[dependencyName];
-            return `<tr><td>${dependencyName}</td><td>${current}</td><td>${lock}</td><td>${latest}</td></tr>`;
+            return `<tr><td>${dependencyName}</td><td>${current}</td>${!ignoreLockVersion ? `<td>${lock}</td>` : ''}<td>${latest}</td></tr>`;
           })
           .join(' ');
 
         warn(`You have ${outdatedDependenciesNames.length} outdated dependencies in ${packageJson?.name}.\n
-<details><summary>Show Lists</summary><table><thead><tr><th width="100%">Dependency</th><th>Current</th><th>Lock</th><th>Latest</th></tr></thead>${table}</table></details>`);
+<details><summary>Show Lists</summary><table><thead><tr><th width="100%">Dependency</th><th>Current</th>${!ignoreLockVersion ? `<th>Lock</th>` : ''}<th>Latest</th></tr></thead>${table}</table></details>`);
       }
     } catch (err) {
       fail(` npm check updates error in ${packageJson?.name}: ` + err.message);
