@@ -27,7 +27,7 @@ const npmCheckUpdates = async (options: Options = {}) => {
     monorepoPrefix = 'packages',
     onlyChangedPackages = false,
     excludePackages,
-    ignoreLockVersion = false,
+    ignoreLockVersion = true,
     // tslint:disable-next-line: trailing-comma
     ...runOptions
   } = options;
@@ -38,15 +38,14 @@ const npmCheckUpdates = async (options: Options = {}) => {
   const defaultPackageLock = !ignoreLockVersion
     ? readPackageLock(defaultBasePath)
     : null;
-  let packages: Packages[] =
-    defaultPackageJson && defaultPackageLock
-      ? [
-          {
-            packageJson: defaultPackageJson,
-            packageLock: defaultPackageLock,
-          },
-        ]
-      : [];
+  let packages: Packages[] = defaultPackageJson
+    ? [
+        {
+          packageJson: defaultPackageJson,
+          packageLock: defaultPackageLock,
+        },
+      ]
+    : [];
 
   if (monorepo) {
     const monorepoPackagesPattern = new RegExp(`${monorepoPrefix}\/(.+)\/`);

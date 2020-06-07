@@ -125,7 +125,7 @@ export interface Options extends RunOptions {
   excludePackages?: string | string[] | RegExp;
 
   /**
-   * ignore lock version. (default: false)
+   * ignore lock version. (default: true)
    */
   ignoreLockVersion?: boolean;
 }

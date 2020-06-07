@@ -10,7 +10,9 @@ beforeEach(() => {
   global.markdown = jest.fn();
   global.danger = {
     git: {
-      modified_files: [],
+      modified_files: [
+        'src/__mocks__/packages/mock-monorepo-package/package.json',
+      ],
       created_files: [],
       deleted_files: [],
     },
@@ -38,8 +40,9 @@ describe('npmCheckUpdates()', () => {
     await npmCheckUpdates({
       monorepo: true,
       excludePackages: 'mock-root-package',
-      timeout: 5000,
+      onlyChangedPackages: true,
       packageFile: path.join(__dirname, './__mocks__/package.json'),
+      timeout: 5000,
     });
 
     expect(global.warn).toHaveBeenCalled();

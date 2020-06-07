@@ -1,10 +1,15 @@
 # danger-plugin-npm-check-updates
 
-[![Build Status](https://travis-ci.org/rizalibnu/danger-plugin-npm-check-updates.svg?branch=master)](https://travis-ci.org/rizalibnu/danger-plugin-npm-check-updates)
 [![npm version](https://badge.fury.io/js/danger-plugin-npm-check-updates.svg)](https://badge.fury.io/js/danger-plugin-npm-check-updates)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-> Danger plugin for npm-check-updates
+> Danger plugin for npm-check-updates.
+
+## Features
+
+- [x] Support Private Package
+- [x] Support monorepo. e.g lerna
+- [x] Support Package Lock (package-lock.json or yarn.lock) version
 
 ## Usage
 
@@ -18,14 +23,15 @@ At a glance:
 
 ```js
 // dangerfile.js
-import { schedule } from "danger"
-import npmCheckUpdates from "danger-plugin-npm-check-updates"
+import { schedule } from 'danger'
+import path from 'path'
+import npmCheckUpdates from 'danger-plugin-npm-check-updates'
 
 // Note: You need to use schedule()
 schedule(npmCheckUpdates({
-  monorepo: true,
-  timeout: 5000,
-  packageFile: path.join(__dirname, './package.json'),
+  monorepo: true, // optional
+  timeout: 5000, // optional
+  packageFile: path.join(__dirname, './package.json'), // optional
 }))
 ```
 
@@ -159,7 +165,7 @@ export interface Options extends RunOptions {
   excludePackages?: string | string[] | RegExp;
 
   /**
-   * ignore lock version. (default: false)
+   * ignore lock version. (default: true)
    */
   ignoreLockVersion?: boolean;
 }
