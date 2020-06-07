@@ -1,0 +1,6 @@
+{
+  "name": "mock-monorepo-package",
+  "dependencies": {
+    "react": "15.0.0"
+  }
+}

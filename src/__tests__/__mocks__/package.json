@@ -1,0 +1,6 @@
+{
+  "name": "mock-root-package",
+  "dependencies": {
+    "react": "15.0.0"
+  }
+}

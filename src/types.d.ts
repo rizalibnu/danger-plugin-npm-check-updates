@@ -1,37 +1,3 @@
-# danger-plugin-npm-check-updates
-
-[![Build Status](https://travis-ci.org/rizalibnu/danger-plugin-npm-check-updates.svg?branch=master)](https://travis-ci.org/rizalibnu/danger-plugin-npm-check-updates)
-[![npm version](https://badge.fury.io/js/danger-plugin-npm-check-updates.svg)](https://badge.fury.io/js/danger-plugin-npm-check-updates)
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-
-> Danger plugin for npm-check-updates
-
-## Usage
-
-Install:
-
-```sh
-yarn add danger-plugin-npm-check-updates --dev
-```
-
-At a glance:
-
-```js
-// dangerfile.js
-import { schedule } from "danger"
-import npmCheckUpdates from "danger-plugin-npm-check-updates"
-
-// Note: You need to use schedule()
-schedule(npmCheckUpdates({
-  monorepo: true,
-  timeout: 5000,
-  packageFile: path.join(__dirname, './package.json'),
-}))
-```
-
-Options:
-
-```js
 export interface RunOptions {
   /**
    * rc config file path (default: directory of `packageFile` or ./ otherwise)
@@ -163,16 +129,39 @@ export interface Options extends RunOptions {
    */
   ignoreLockVersion?: boolean;
 }
-```
 
-## Sample message
+export type DependencyType =
+  | 'dependencies'
+  | 'devDependencies'
+  | 'peerDependencies'
+  | 'optionalDependencies';
 
-![sample message](https://raw.githubusercontent.com/rizalibnu/danger-plugin-npm-check-updates/master/message.png)
+export type OutdatedDependencies = Record<
+  string,
+  {
+    from: string;
+    to: string;
+    lock: string | null;
+    packageType: DependencyType | '-';
+    url: string;
+  }
+>;
 
-## Changelog
+export type PackegeJson = Record<string, any>;
 
-See the GitHub [release history](https://github.com/rizalibnu/danger-plugin-npm-check-updates/releases).
+export interface PackageLock {
+  type: 'npm';
+  dependencies: Record<string, {version: string}>;
+}
 
-## Contributing
+export interface YarnLock {
+  type: 'yarn';
+  object: Record<string, {version: string}>;
+}
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+type LockFile = PackageLock | YarnLock;
+
+export interface Packages {
+  packageJson: PackegeJson | null;
+  packageLock: LockFile | null;
+}
