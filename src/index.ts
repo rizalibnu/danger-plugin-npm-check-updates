@@ -127,7 +127,9 @@ const npmCheckUpdates = async (options: Options = {}) => {
               break;
             case 'yarn':
               const depNames = Object.keys(packageLock.object);
-              const depName = depNames.find((name) => name.includes(`${dep}@`));
+              const depName = depNames.find((name) =>
+                new RegExp(`^${dep}@`).test(name)
+              );
               if (depName) {
                 result = packageLock.object[depName]?.version;
               }
