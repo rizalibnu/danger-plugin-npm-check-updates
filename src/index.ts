@@ -17,9 +17,13 @@ export declare function message(message: string): void;
 export declare function warn(message: string): void;
 export declare function fail(message: string): void;
 export declare function markdown(message: string): void;
+export type Reporter = (message: string) => void;
 export type Options = NpmCheckUpdatesOptions;
 
-const npmCheckUpdates = async (options: Options = {}) => {
+const npmCheckUpdates = async (
+  options: Options = {},
+  reporter: Reporter = warn
+) => {
   const {modified_files, created_files, deleted_files} = danger.git;
   const changedFiles = [...modified_files, ...created_files, ...deleted_files];
   const {
@@ -202,7 +206,7 @@ const npmCheckUpdates = async (options: Options = {}) => {
           })
           .join(' ');
 
-        warn(`You have ${
+        reporter(`You have ${
           outdatedDependenciesNames.length
         } outdated dependencies in ${packageJson?.name}.\n
 <details><summary>Show Lists</summary><table><thead><tr><th width="100%">Package</th>${
@@ -210,7 +214,7 @@ const npmCheckUpdates = async (options: Options = {}) => {
         }<th>From</th><th>To</th><th>Package Type</th></tr></thead>${table}</table></details>`);
       }
     } catch (err) {
-      fail(` npm check updates error in ${packageJson?.name}: ` + err.message);
+      fail(`npm check updates error in ${packageJson?.name}: ` + err.message);
     }
   }
 };
